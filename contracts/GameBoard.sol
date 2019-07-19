@@ -68,7 +68,7 @@ contract GameBoard {
 	// 0, "Hackathon", "IPFS", 0
 	function createLeaderboard(uint64 _id, string calldata _title, string calldata _image, uint8 _order) external onlyOwner {
 		require(bytes(_title).length < 255);
-		require(bytes(_image).length <= 32);
+		require(bytes(_image).length <= 400);
 		require(_order <= 1);
 
 		Leaderboard memory l = Leaderboard(_id, _title, _image, _order);
@@ -83,7 +83,7 @@ contract GameBoard {
     // 0, "Hackathon", "IPFS", 0, 200
 	function createAchievement(uint64 _id, string calldata _title, string calldata _image, uint8 _type, uint64 _maxValue) external onlyOwner {
 		require(bytes(_title).length < 255);
-		require(bytes(_image).length <= 32);
+		require(bytes(_image).length <=400);
 		require(_type <= 1);
 
 		Achievement memory a = Achievement(_id, _title, _image, _type, _maxValue);

@@ -14,18 +14,16 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Id</th>
+            <th width="40">&nbsp;</th>
             <th>Title</th>
-            <th>Image</th>
             <th>Type</th>
             <th>MaxValue</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(leaderboard, idx) in achievements" :key="idx">
-            <td>{{ leaderboard.Id + 1 }}</td>
-            <td>{{ leaderboard.Title }}</td>
             <td><img :src="leaderboard.Image" /></td>
+            <td>{{ leaderboard.Title }}</td>
             <td>{{ leaderboard.Type == 0 ? 'Boolean' : 'Progressive' }}</td>
             <td>{{ leaderboard.Type == 0 ? '-' : leaderboard.MaxValue }}</td>
           </tr>

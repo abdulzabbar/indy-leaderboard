@@ -14,25 +14,19 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Id</th>
+            <th width="40">&nbsp;</th>
             <th>Title</th>
-            <th>Image</th>
             <th>Ordering</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(leaderboard, idx) in leaderboards" :key="idx">
-            <td>
-              <router-link :to="{ path: `/leaderboard/${leaderboard.Id}` }">
-                {{ leaderboard.Id + 1 }}
-              </router-link>
-            </td>
+            <td><img :src="leaderboard.Image" /></td>
             <td>
               <router-link :to="{ path: `/leaderboard/${leaderboard.Id}` }">
                 {{ leaderboard.Title }}
               </router-link>
             </td>
-            <td><img :src="leaderboard.Image" /></td>
             <td>
               {{ leaderboard.Order == 0 ? '&#9650; ASC' : '&#9660; DESC' }}
             </td>
