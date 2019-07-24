@@ -16,21 +16,6 @@ const getInstance = async () => {
   return await GameboardContract.deployed()
 }
 
-const createLeaderboard = async (id, title, image, order) => {
-  const gc = await getInstance()
-
-  // we don't want to use the truffle-contract interface directly,
-  // but instead get the encoded ABI data, in order we call the ebakus wallet for the transaction
-  const data = gc.contract.methods
-    .createLeaderboard(id, title, image, order)
-    .encodeABI()
-
-  await window.ebakusWallet.sendTransaction({
-    to: gc.address,
-    data,
-  })
-}
-
 const getLeaderboards = async () => {
   const gc = await getInstance()
   const iter = await web3.db.select(
@@ -85,36 +70,6 @@ const getLeaderboardScores = async (id, order) => {
   return items
 }
 
-const setScore = async (leaderboardId, userId, value) => {
-  const gc = await getInstance()
-
-  // we don't want to use the truffle-contract interface directly,
-  // but instead get the encoded ABI data, in order we call the ebakus wallet for the transaction
-  const data = gc.contract.methods
-    .setScore(leaderboardId, userId, value)
-    .encodeABI()
-
-  await window.ebakusWallet.sendTransaction({
-    to: gc.address,
-    data,
-  })
-}
-
-const createAchievement = async (id, title, image, type, maxValue) => {
-  const gc = await getInstance()
-
-  // we don't want to use the truffle-contract interface directly,
-  // but instead get the encoded ABI data, in order we call the ebakus wallet for the transaction
-  const data = gc.contract.methods
-    .createAchievement(id, title, image, type, maxValue)
-    .encodeABI()
-
-  await window.ebakusWallet.sendTransaction({
-    to: gc.address,
-    data,
-  })
-}
-
 const getAchievements = async () => {
   const gc = await getInstance()
   const iter = await web3.db.select(
@@ -155,29 +110,10 @@ const getUnlockedAchievements = async address => {
   return items
 }
 
-const unlockAchievement = async (achievementId, userId, value) => {
-  const gc = await getInstance()
-
-  // we don't want to use the truffle-contract interface directly,
-  // but instead get the encoded ABI data, in order we call the ebakus wallet for the transaction
-  const data = gc.contract.methods
-    .unlockAchievement(achievementId, userId, value)
-    .encodeABI()
-
-  await window.ebakusWallet.sendTransaction({
-    to: gc.address,
-    data,
-  })
-}
-
 export {
-  createLeaderboard,
   getLeaderboards,
   getLeaderboard,
   getLeaderboardScores,
-  setScore,
-  createAchievement,
   getAchievements,
   getUnlockedAchievements,
-  unlockAchievement,
 }
