@@ -11,12 +11,18 @@
       <table class="table">
         <thead>
           <tr>
+            <th width="40">&nbsp;</th>
             <th>User</th>
             <th>Value</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(score, idx) in leaderboardScores" :key="idx">
+            <td>
+              <img
+                :src="`https://api.adorable.io/avatars/40/${score.UserId}`"
+              />
+            </td>
             <td>
               <router-link :to="{ path: `/user/${score.UserId}` }">
                 {{ score.UserId }}
