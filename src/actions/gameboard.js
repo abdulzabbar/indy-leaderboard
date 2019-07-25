@@ -1,24 +1,27 @@
 import contract from 'truffle-contract'
+import Web3 from 'web3'
+import ebakus from 'web3-ebakus'
+
 import gameboardcContractJson from '../../build/contracts/GameBoard.json'
 
-import { getWeb3 } from '../utils/web3'
+const web3 = ebakus(new Web3(process.env.VUE_APP_WEB3_PROVIDER))
 
 const GameboardContract = contract(gameboardcContractJson)
-let web3
+GameboardContract.setProvider(web3.currentProvider)
+let _gameboardContractAddress
 
-const getInstance = async () => {
-  if (typeof web3 === 'undefined') {
-    web3 = await getWeb3()
-    GameboardContract.setProvider(web3.givenProvider || web3.currentProvider)
+const getGameboardContractAddress = async () => {
+  if (typeof _gameboardContractAddress === 'undefined') {
+    const instance = await GameboardContract.deployed()
+    _gameboardContractAddress = instance.address
   }
-
-  return await GameboardContract.deployed()
+  return _gameboardContractAddress
 }
 
 const getLeaderboards = async () => {
-  const gc = await getInstance()
+  const contractAddress = await getGameboardContractAddress()
   const iter = await web3.db.select(
-    gc.address,
+    contractAddress,
     'Leaderboards',
     '',
     'Title ASC',
@@ -36,9 +39,9 @@ const getLeaderboards = async () => {
 }
 
 const getLeaderboard = async id => {
-  const gc = await getInstance()
+  const contractAddress = await getGameboardContractAddress()
   const iter = await web3.db.select(
-    gc.address,
+    contractAddress,
     'Leaderboards',
     'Id = ' + id,
     'Title ASC',
@@ -50,9 +53,9 @@ const getLeaderboard = async id => {
 }
 
 const getLeaderboardScores = async (id, order) => {
-  const gc = await getInstance()
+  const contractAddress = await getGameboardContractAddress()
   const iter = await web3.db.select(
-    gc.address,
+    contractAddress,
     'Scores',
     'LeaderboardId = ' + id,
     'Value ' + (order == 1 ? 'DESC' : 'ASC'),
@@ -70,9 +73,9 @@ const getLeaderboardScores = async (id, order) => {
 }
 
 const getAchievements = async () => {
-  const gc = await getInstance()
+  const contractAddress = await getGameboardContractAddress()
   const iter = await web3.db.select(
-    gc.address,
+    contractAddress,
     'Achievements',
     '',
     'Title ASC',
@@ -90,9 +93,9 @@ const getAchievements = async () => {
 }
 
 const getUnlockedAchievements = async address => {
-  const gc = await getInstance()
+  const contractAddress = await getGameboardContractAddress()
   const iter = await web3.db.select(
-    gc.address,
+    contractAddress,
     'UnlockedAchievements',
     'UserId = ' + address,
     'Value DESC',
