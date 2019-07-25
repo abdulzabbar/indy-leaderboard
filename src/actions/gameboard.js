@@ -1,4 +1,3 @@
-// import Vue from 'vue'
 import contract from 'truffle-contract'
 import gameboardcContractJson from '../../build/contracts/GameBoard.json'
 
