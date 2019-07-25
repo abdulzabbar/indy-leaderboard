@@ -3,10 +3,10 @@ pragma solidity ^0.5.6;
 import "./EbakusDB.sol";
 
 contract GameBoard {
-	event LogLeaderboard(uint64 _id, string _title, string _image, uint _order);
-	event LogAchievement(uint64 _id, string _title, string _image, uint8 _type, uint64 _maxValue);
-	event LogBool(bool _value);
-	event LogUint8(uint8 _value);
+	event NewLeaderboard(uint64 id, string title, string image, uint8 order);
+	event NewAchievement(uint64 id, string title, string image, uint8 type_, uint64 maxValue);
+	event ScoreSet(uint64 leaderboardId, address userId, uint64 value);
+	event AchievementUnlocked(uint64 achievementId, address userId, uint64 value);
 
 	string LeaderboardsTable = "Leaderboards";
 	string AchievementsTable = "Achievements";
@@ -77,7 +77,7 @@ contract GameBoard {
 		bool ok = EbakusDB.insertObj(LeaderboardsTable, input);
 		require(ok);
 
-		emit LogBool(ok);
+		emit NewLeaderboard(l.Id, l.Title, l.Image, l.Order);
 	}
 
     // 0, "Hackathon", "IPFS", 0, 200
@@ -97,14 +97,13 @@ contract GameBoard {
 		bool ok = EbakusDB.insertObj(AchievementsTable, input);
 		require(ok);
 
-		emit LogBool(ok);
+		emit NewAchievement(a.Id, a.Title, a.Image, a.Type, a.MaxValue);
 	}
 
 	function setScore(uint64 _leaderboardId, address _userId, uint64 _value) external onlyOwner {
 		// get leaderboard from DB and verify
 		Leaderboard memory l;
 		(l.Id, l.Title, l.Image, l.Order) = getLeaderboard(_leaderboardId);
-
 		require(l.Id == _leaderboardId);
 
 		string memory id = string(abi.encodePacked(_userId, _leaderboardId));
@@ -115,7 +114,7 @@ contract GameBoard {
 		bool ok = EbakusDB.insertObj(ScoresTable, input);
 		require(ok);
 
-		emit LogBool(ok);
+		emit ScoreSet(s.LeaderboardId, s.UserId, s.Value);
 	}
 
 
@@ -141,15 +140,13 @@ contract GameBoard {
 		bool ok = EbakusDB.insertObj(UnlockedAchievementsTable, input);
 		require(ok);
 
-		emit LogBool(ok);
+		emit AchievementUnlocked(ua.AchievementId, ua.UserId, ua.Value);
 	}
 
 	function getLeaderboard(uint64 _id) internal returns (uint64, string memory, string memory, uint8) {
 		Leaderboard memory l;
 		bytes memory out = EbakusDB.get(LeaderboardsTable, string(abi.encodePacked("Id = ", uint2str(_id))), "");
 		(l.Id, l.Title, l.Image, l.Order) = abi.decode(out, (uint64, string, string, uint8));
-
-		emit LogLeaderboard(l.Id, l.Title, l.Image, l.Order);
 		return (l.Id, l.Title, l.Image, l.Order);
 	}
 
@@ -157,12 +154,10 @@ contract GameBoard {
 		Achievement memory a;
 		bytes memory out = EbakusDB.get(AchievementsTable, string(abi.encodePacked("Id = ", uint2str(_id))), "");
 		(a.Id, a.Title, a.Image, a.Type, a.MaxValue) = abi.decode(out, (uint64, string, string, uint8, uint64));
-
-		emit LogAchievement(a.Id, a.Title, a.Image, a.Type, a.MaxValue);
 		return (a.Id, a.Title, a.Image, a.Type, a.MaxValue);
 	}
 
-	function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+	function uint2str(uint _i) internal pure returns (string memory) {
 		if (_i == 0) {
 			return "0";
 		}
