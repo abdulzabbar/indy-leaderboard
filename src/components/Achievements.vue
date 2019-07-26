@@ -22,15 +22,21 @@
 </template>
 
 <script>
-import { getAchievements } from '../actions/gameboard'
+import { getAchievements, listenForNewAchievement } from '../actions/gameboard'
 
 export default {
   name: 'Achievements',
   data() {
-    return { achievements: {} }
+    return { achievements: {}, eventListener: null }
   },
-  mounted() {
+  async mounted() {
     this.getAchievements()
+    this.eventListener = await listenForNewAchievement(this.getAchievements)
+  },
+  beforeDestroy() {
+    if (this.eventListener) {
+      this.eventListener.unsubscribe()
+    }
   },
   methods: {
     async getAchievements() {

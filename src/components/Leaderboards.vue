@@ -26,15 +26,21 @@
 </template>
 
 <script>
-import { getLeaderboards } from '../actions/gameboard'
+import { getLeaderboards, listenForNewLeaderboard } from '../actions/gameboard'
 
 export default {
   name: 'Leaderboards',
   data() {
-    return { leaderboards: {} }
+    return { leaderboards: {}, eventListener: null }
   },
-  mounted() {
+  async mounted() {
     this.getLeaderboards()
+    this.eventListener = await listenForNewLeaderboard(this.getLeaderboards)
+  },
+  beforeDestroy() {
+    if (this.eventListener) {
+      this.eventListener.unsubscribe()
+    }
   },
   methods: {
     async getLeaderboards() {

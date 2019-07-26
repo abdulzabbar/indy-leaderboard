@@ -24,7 +24,11 @@
 </template>
 
 <script>
-import { getAchievements, getUnlockedAchievements } from '../actions/gameboard'
+import {
+  getAchievements,
+  getUnlockedAchievements,
+  listenForAchievementUnlocked,
+} from '../actions/gameboard'
 
 export default {
   name: 'unlockedAchievements',
@@ -32,7 +36,7 @@ export default {
     return {
       achievements: [],
       unlockedAchievements: [],
-      walletAddress: null,
+      eventListener: null,
     }
   },
   watch: {
@@ -45,7 +49,19 @@ export default {
     this.$set(this, 'achievements', achievements)
 
     this.getUnlockedAchievements(this.$route.params.address)
-    this.getWalletAddress()
+    this.eventListener = await listenForAchievementUnlocked(
+      this.$route.params.address,
+      async () => {
+        const achievements = await getAchievements()
+        this.$set(this, 'achievements', achievements)
+        this.getUnlockedAchievements(this.$route.params.address)
+      }
+    )
+  },
+  beforeDestroy() {
+    if (this.eventListener) {
+      this.eventListener.unsubscribe()
+    }
   },
   methods: {
     achievementName: function(id) {
@@ -65,10 +81,6 @@ export default {
     async getUnlockedAchievements(id) {
       const unlockedAchievements = await getUnlockedAchievements(id)
       this.$set(this, 'unlockedAchievements', unlockedAchievements)
-    },
-    async getWalletAddress() {
-      const address = await window.ebakusWallet.getDefaultAddress()
-      this.walletAddress = address
     },
   },
 }

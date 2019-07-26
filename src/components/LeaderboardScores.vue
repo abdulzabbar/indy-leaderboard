@@ -26,7 +26,11 @@
 </template>
 
 <script>
-import { getLeaderboard, getLeaderboardScores } from '../actions/gameboard'
+import {
+  getLeaderboard,
+  getLeaderboardScores,
+  listenForScoreSet,
+} from '../actions/gameboard'
 
 export default {
   name: 'leaderboardScores',
@@ -34,6 +38,7 @@ export default {
     return {
       leaderboard: {},
       leaderboardScores: [],
+      eventListener: null,
     }
   },
   watch: {
@@ -46,6 +51,14 @@ export default {
     this.$set(this, 'leaderboard', leaderboard)
 
     this.getLeaderboardScores(this.$route.params.id)
+    this.eventListener = await listenForScoreSet(this.$route.params.id, () =>
+      this.getLeaderboardScores(this.$route.params.id)
+    )
+  },
+  beforeDestroy() {
+    if (this.eventListener) {
+      this.eventListener.unsubscribe()
+    }
   },
   methods: {
     async getLeaderboardScores(id) {
