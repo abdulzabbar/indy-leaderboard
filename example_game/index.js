@@ -165,7 +165,7 @@ const logic = async ({ action }) => {
           userOptions.createLeaderboardCustomData(randomContent)
         )
 
-        randomContent = { ...randomContent, customDataInput }
+        randomContent = { ...randomContent, ...customDataInput }
       }
 
       await gameLogic.createLeaderboard(randomContent)
@@ -191,7 +191,7 @@ const logic = async ({ action }) => {
           userOptions.createAchievementCustomData(randomContent)
         )
 
-        randomContent = { ...randomContent, customDataInput }
+        randomContent = { ...randomContent, ...customDataInput }
       }
 
       await gameLogic.createAchievement(randomContent)
@@ -208,7 +208,6 @@ const logic = async ({ action }) => {
         userId: randomAccount.address,
         value: utils.getRandomInt(0, 1000000),
       }
-      console.log('TCL: logic -> randomContent', randomContent)
 
       const dataTypeInput = await inquirer.prompt(
         userOptions.setScore(randomContent)
@@ -219,15 +218,23 @@ const logic = async ({ action }) => {
           userOptions.setScoreCustomData(randomContent)
         )
 
-        randomContent = { ...randomContent, customDataInput }
+        randomContent = { ...randomContent, ...customDataInput }
       }
 
       await gameLogic.setScore(randomContent)
       console.log('Score set!')
     } else if (action === 'unlockAchievement') {
-      const latestAchievement = await gameLogic
-        .getWeb3()
-        .db.get(contract._address, 'Achievements', '', 'Id DESC', 'latest')
+      let latestAchievement
+      try {
+        latestAchievement = await gameLogic
+          .getWeb3()
+          .db.get(contract._address, 'Achievements', '', 'Id DESC', 'latest')
+      } catch (err) {
+        console.log(
+          'No achievements found! Try creating an achievement first.\n\n',
+          err.message
+        )
+      }
 
       let value
       if (latestAchievement.Type == 0) {
@@ -255,7 +262,7 @@ const logic = async ({ action }) => {
           userOptions.unlockAchievementCustomData(randomContent)
         )
 
-        randomContent = { ...randomContent, customDataInput }
+        randomContent = { ...randomContent, ...customDataInput }
       }
 
       await gameLogic.unlockAchievement(randomContent)
