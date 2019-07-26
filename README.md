@@ -8,20 +8,24 @@ You first have to set your wallet info in the [.env](/.env) file, so as all thre
 ## 2. Install the needed packages
 
 ```
-yarn install
+yarn
 ```
 
 ## 3. Contract build and deploy
 
 ```
-truffle compile --reset && truffle migrate --reset
+truffle compile && truffle migrate
 ```
+
+> If you had to place your keys in the [.env](/.env) file, then re-run this step.
 
 ## 4. Start the frontend dApp (read access only)
 
 ```
 yarn serve
 ```
+
+> You can access the dApp at `http://localhost:8080`.
 
 ## 5. Use an example dApp for utilizing contract (write access)
 

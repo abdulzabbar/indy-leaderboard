@@ -39,8 +39,16 @@ if (mnemonic && mnemonic.split(' ').length == 12) {
   In case you don't have one, we have generated a new wallet for you that you can use.
   Just copy the below text in your '.env' file.
 
+  """
   WALLET_MNEMONIC=${mnemonic}
   WALLET_PRIVATE_KEY=0x${privateKey}
+  """
+
+  After you have correctly set your '.env' file, please re-run the command.
+
+  """
+  truffle compile && truffle migrate
+  """
   `)
 
   process.exit(1)
