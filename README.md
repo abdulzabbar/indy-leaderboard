@@ -3,7 +3,7 @@
 
 ## 1. Set the .env variables
 
-You first have to set your wallet info in the [.env](/.env) file, so as all three modules can communicate with the contract. If you don't know how to get the mnemonic or private key, try creating a new account at the [Ebakus wallet](https://wallet.ebakus.com) (IMPORTANT: take a backup of your existing key first).
+You first have to set your wallet info in the [.env](/.env) file, so as all three modules can communicate with the contract. If you don't know how to get the mnemonic or private key, we will generate one for you at step 3, and instruct you to copy the values in the [.env](/.env) file.
 
 ## 2. Install the needed packages
 

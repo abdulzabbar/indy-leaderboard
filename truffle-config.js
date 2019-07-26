@@ -1,4 +1,6 @@
 require('dotenv').config()
+const bip39 = require('bip39')
+const hdkey = require('hdkey')
 const HDWalletProvider = require('truffle-hdwallet-provider')
 
 if (!process.env.WEB3_PROVIDER) {
@@ -15,7 +17,32 @@ if (mnemonic && mnemonic.split(' ').length == 12) {
 } else if (privateKey) {
   walletSecret = privateKey
 } else {
-  console.log('Please set you wallet mnemonic or private_key in .env file!')
+  const mnemonic = bip39.generateMnemonic()
+  const seed = bip39.mnemonicToSeedSync(mnemonic)
+  const root = hdkey.fromMasterSeed(seed)
+  const privateKey = root.privateKey.toString('hex')
+
+  console.log(`
+  ####################################
+        _           _
+       | |         | |
+    ___| |__   __ _| | ___   _ ___
+   / _ \\ '_ \\ / _\` | |/ / | | / __|
+  |  __/ |_) | (_| |   <| |_| \\__ \\
+   \\___|_.__/ \\__,_|_|\\_\\\\__,_|___/
+
+  ####################################
+
+
+  Please set your wallet mnemonic or private_key in '.env' file!
+
+  In case you don't have one, we have generated a new wallet for you that you can use.
+  Just copy the below text in your '.env' file.
+
+  WALLET_MNEMONIC=${mnemonic}
+  WALLET_PRIVATE_KEY=0x${privateKey}
+  `)
+
   process.exit(1)
 }
 
