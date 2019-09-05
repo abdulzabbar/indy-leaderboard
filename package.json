@@ -17,7 +17,7 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "web3": "1.0.0-beta.37",
-    "web3-ebakus": "git+ssh://git@bitbucket.org/harkal/web3-ebakus.git#master"
+    "web3-ebakus": "https://bitbucket.org/harkal/web3-ebakus.git#master"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
