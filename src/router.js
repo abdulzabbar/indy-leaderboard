@@ -18,7 +18,9 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "achievements" */ './components/Achievements.vue'),
+        import(
+          /* webpackChunkName: "achievements" */ './components/Achievements.vue'
+        ),
     },
     {
       path: '/leaderboard/:id',
@@ -27,13 +29,17 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "leaderboard" */ './components/LeaderboardScores.vue'),
+        import(
+          /* webpackChunkName: "leaderboard" */ './components/LeaderboardScores.vue'
+        ),
     },
     {
       path: '/user/:address',
       name: 'userUnlockedAchievements',
       component: () =>
-        import(/* webpackChunkName: "userUnlockedAchievements" */ './components/UserUnlockedAchievements.vue'),
+        import(
+          /* webpackChunkName: "userUnlockedAchievements" */ './components/UserUnlockedAchievements.vue'
+        ),
     },
   ],
 })
