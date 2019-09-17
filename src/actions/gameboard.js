@@ -1,9 +1,9 @@
 import Web3 from 'web3'
-import ebakus from 'web3-ebakus'
+import Web3Ebakus from 'web3-ebakus'
 
 import gameboardcContractJson from '../../build/contracts/GameBoard.json'
 
-const web3 = ebakus(new Web3(process.env.VUE_APP_WEB3_PROVIDER))
+const web3 = Web3Ebakus(new Web3(process.env.VUE_APP_WEB3_PROVIDER))
 
 let _contract
 let contractAddress

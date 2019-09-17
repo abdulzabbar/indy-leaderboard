@@ -1,7 +1,7 @@
 require('dotenv').config()
 const bip39 = require('bip39')
 const hdkey = require('hdkey')
-const HDWalletProvider = require('truffle-hdwallet-provider')
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 if (!process.env.WEB3_PROVIDER) {
   console.log('Please set a web3 provider to use!')
