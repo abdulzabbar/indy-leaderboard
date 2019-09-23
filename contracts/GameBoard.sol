@@ -65,7 +65,6 @@ contract GameBoard {
 		EbakusDB.createTable(UnlockedAchievementsTable, "Value", unlockedAchievementsTableAbi);
 	}
 
-	// 0, "Hackathon", "IPFS", 0
 	function createLeaderboard(uint64 _id, string calldata _title, string calldata _image, uint8 _order) external onlyOwner {
 		require(bytes(_title).length < 255);
 		require(bytes(_image).length <= 400);
@@ -80,7 +79,6 @@ contract GameBoard {
 		emit NewLeaderboard(l.Id, l.Title, l.Image, l.Order);
 	}
 
-    // 0, "Hackathon", "IPFS", 0, 200
 	function createAchievement(uint64 _id, string calldata _title, string calldata _image, uint8 _type, uint64 _maxValue) external onlyOwner {
 		require(bytes(_title).length < 255);
 		require(bytes(_image).length <=400);
@@ -143,14 +141,14 @@ contract GameBoard {
 		emit AchievementUnlocked(ua.AchievementId, ua.UserId, ua.Value);
 	}
 
-	function getLeaderboard(uint64 _id) internal returns (uint64, string memory, string memory, uint8) {
+	function getLeaderboard(uint64 _id) public view returns (uint64, string memory, string memory, uint8) {
 		Leaderboard memory l;
 		bytes memory out = EbakusDB.get(LeaderboardsTable, string(abi.encodePacked("Id = ", uint2str(_id))), "");
 		(l.Id, l.Title, l.Image, l.Order) = abi.decode(out, (uint64, string, string, uint8));
 		return (l.Id, l.Title, l.Image, l.Order);
 	}
 
-	function getAchievement(uint64 _id) internal returns (uint64, string memory, string memory, uint8, uint64) {
+	function getAchievement(uint64 _id) public view returns (uint64, string memory, string memory, uint8, uint64) {
 		Achievement memory a;
 		bytes memory out = EbakusDB.get(AchievementsTable, string(abi.encodePacked("Id = ", uint2str(_id))), "");
 		(a.Id, a.Title, a.Image, a.Type, a.MaxValue) = abi.decode(out, (uint64, string, string, uint8, uint64));
