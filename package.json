@@ -16,26 +16,26 @@
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "web3": "1.2.1",
-    "web3-ebakus": "^0.1.0"
+    "web3-ebakus": "0.1.0"
   },
   "devDependencies": {
-    "@truffle/hdwallet-provider": "^1.0.14",
+    "@truffle/hdwallet-provider": "1.0.18",
     "@vue/cli-plugin-babel": "^3.9.0",
     "@vue/cli-plugin-eslint": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
     "@vue/eslint-config-prettier": "^4.0.1",
     "babel-eslint": "^10.0.2",
-    "bip39": "^3.0.2",
+    "bip39": "3.0.2",
     "dotenv": "^8.0.0",
     "eslint": "^6.1.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0",
-    "hdkey": "^1.1.1",
+    "hdkey": "1.1.1",
     "inquirer": "^6.5.0",
     "lint-staged": "^8.1.5",
     "sass": "^1.18.0",
     "sass-loader": "^7.1.0",
-    "truffle": "^5.0.25",
+    "truffle": "5.0.25",
     "vue-template-compiler": "^2.6.10"
   },
   "gitHooks": {
