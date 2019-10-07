@@ -9584,10 +9584,10 @@ web3-core@1.2.1:
     web3-core-requestmanager "1.2.1"
     web3-utils "1.2.1"
 
-web3-ebakus@0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/web3-ebakus/-/web3-ebakus-0.1.0.tgz#3354053073b985d7ef6966217095f5fed7630b4e"
-  integrity sha512-M9O44mh5CRyXzNjFI+30B6XPrIKVi6BpJyCcKt1aHtEAsvS7znILXlPFVz+6EaJnmA3vu4R8SZ8wdRc7HdHLDA==
+web3-ebakus@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/web3-ebakus/-/web3-ebakus-0.1.1.tgz#2a342e51cc41e1b5beaa27eba10ed9f09cd93ad3"
+  integrity sha512-8B1/0fzlA7nPDRv7ZXiTUSaxxwJI74SDr2LyggKrGk4W2RRbYMkfH0wRE58GI9zBs4ICDt+jMlDtUtA/fL9UiA==
   dependencies:
     "@babel/polyfill" "^7.4.4"
     clz-buffer "^1.0.0"
